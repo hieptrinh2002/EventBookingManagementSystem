@@ -1,8 +1,9 @@
 <nav class="navbar navbar-expand-lg">
     <div class="container">
-        <a class="navbar-brand" href="index.html">
+        <a class="navbar-brand" href="{{ route('home') }}">
             Festava Live
         </a>
+
 
         <a href="ticket.html" class="btn custom-btn d-lg-none ms-auto me-4">Buy Ticket</a>
 
@@ -38,7 +39,7 @@
                 </li>
             </ul>
 
-            <a class="nav-link btn custom-btn d-lg-block d-none" href="{{ route('login') }}">{{ __('Login') }}</a>
+            <a href="" class="nav-link btn custom-btn d-lg-block d-none">Login</a>
         </div>
     </div>
 </nav>
