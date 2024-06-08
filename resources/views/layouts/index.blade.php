@@ -15,13 +15,13 @@
 
     <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@100;200;400;700&display=swap" rel="stylesheet">
 
-    <link href="{{asset("app/css/bootstrap.min.css")}}" rel="stylesheet">
+    <link href="{{ asset('app/css/bootstrap.min.css') }}" rel="stylesheet">
 
-    <link href="{{asset("app/css/bootstrap-icons.css")}}" rel="stylesheet">
+    <link href="{{ asset('app/css/bootstrap-icons.css') }}" rel="stylesheet">
 
-    <link href="{{asset("app/css/templatemo-festava-live.css")}}" rel="stylesheet">
+    <link href="{{ asset('app/css/templatemo-festava-live.css') }}" rel="stylesheet">
 
-    <link href="{{asset("app/fontawesome/css/all.css")}}" rel="stylesheet">
+    <link href="{{ asset('app/fontawesome/css/all.css') }}" rel="stylesheet">
 
     <link rel="stylesheet" href="https://unpkg.com/bs-brain@2.0.4/components/blogs/blog-4/assets/css/blog-4.css">
 
@@ -34,19 +34,19 @@
 
 <body>
     <main>
-        @include("layouts/navbar")
+        @include('layouts/navbar')
 
-        @yield("content")
+        @yield('content')
 
-        @include("layouts/footer")
+        @include('layouts/footer')
     </main>
 
     <!-- Script chung -->
-    <script src="{{asset("app/js/jquery.min.js")}}"></script>
-    <script src="{{asset("app/js/bootstrap.min.js")}}"></script>
-    <script src="{{asset("app/js/jquery.sticky.js")}}"></script>
-    <script src="{{asset("app/js/click-scroll.js")}}"></script>
-    <script src="{{asset("app/js/custom.js")}}"></script>
+    <script src="{{ asset('app/js/jquery.min.js') }}"></script>
+    <script src="{{ asset('app/js/bootstrap.min.js') }}"></script>
+    <script src="{{ asset('app/js/jquery.sticky.js') }}"></script>
+    <script src="{{ asset('app/js/click-scroll.js') }}"></script>
+    <script src="{{ asset('app/js/custom.js') }}"></script>
 
     <!-- Script riêng cho từng layout -->
     @yield('scripts')
