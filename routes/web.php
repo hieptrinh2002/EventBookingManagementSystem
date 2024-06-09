@@ -1,8 +1,6 @@
 <?php
 use App\Http\Controllers\Merchant\EventController;
 use App\Http\Controllers\Merchant\PromotionController;
-
-
 use Illuminate\Support\Facades\Route;
 // Route::get('/events', function () {
 //     return view('events');

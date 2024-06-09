@@ -50,7 +50,8 @@
                                         <a class="btn btn-link text-danger text-gradient px-3 mb-0" href="javascript:;">
                                             <i class="material-icons fs-4 me-2">delete</i>
                                         </a>
-                                        <a class="btn btn-link text-dark px-3 mb-0" href="javascript:;">
+                                        <a class="btn btn-link text-dark px-3 mb-0"
+                                            href="{{ route('merchant.events.edit', $event['id']) }}">
                                             <i class="material-icons fs-4 me-2">edit</i>Edit
                                         </a>
                                     </td>
