@@ -35,4 +35,5 @@ return [
         ],
     ],
 
+    'merchant_event_api_base_url' => env('MERCHANT_EVENT_API_BASE_URL'),
 ];
