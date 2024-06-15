@@ -73,7 +73,6 @@ class EventController extends Controller
             ]
         ];
 
-        $events1 = EventService::getAllEvents();
         if($events == null)
         {
             return view('events.index', ['events' => []]);
