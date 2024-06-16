@@ -47,7 +47,7 @@ class LoginController extends Controller
     {
         $result = $this->authenticationService->login($request);
         if (isset($result['data'])) {
-            return redirect()->route('merchant.dashboard');
+            return redirect()->route('merchant.dashboard.index');
         } else {
             $message = isset($result['detail']) ? $result['detail'] : $result['message'];
             return redirect()->route('auth.login')->with([
