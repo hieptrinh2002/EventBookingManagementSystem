@@ -12,6 +12,7 @@
                                     <form class="px-3" method="post" action="{{ route('merchant.promotions.store') }}">
                                         @csrf
                                         @method('post')
+                                        <input type="hidden" name="merchantId" value="{{ $merchantId }}">
                                         <div class="form-group mb-2">
                                             <div class="row d-flex justify-content-between mb-2">
                                                 <div class="col-md-5">
