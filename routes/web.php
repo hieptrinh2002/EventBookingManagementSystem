@@ -16,6 +16,17 @@ Route::get('/dashboard', function () {
     return view('merchant.dashboard.index');
 })->name('merchant.dashboard');
 
+Route::get('/admin-portal', function () {
+    return view('admin-portal.dashboard');
+})->name('admin-portal.dashboard');
+
+Route::get('/admin-portal/create-event', function () {
+    return view('admin-portal.create-event');
+})->name('admin-portal.create-event');
+
+Route::get('/admin-portal/edit-event', function () {
+    return view('admin-portal.edit-event');
+})->name('admin-portal.edit-event');
 
 Route::get('/events', [App\Http\Controllers\EventController::class, 'index'])->name('events.index');
 Route::get('/events/show', [App\Http\Controllers\EventController::class, 'show'])->name('events.show');
