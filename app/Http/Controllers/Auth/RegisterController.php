@@ -7,6 +7,9 @@ use App\Models\User;
 use Illuminate\Foundation\Auth\RegistersUsers;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Http\Request;
+use App\Services\AuthenticationService;
+use Illuminate\Support\Facades\Log;
 
 class RegisterController extends Controller
 {
@@ -20,6 +23,7 @@ class RegisterController extends Controller
     | provide this functionality without requiring any additional code.
     |
     */
+    protected AuthenticationService $authenticationService;
 
     use RegistersUsers;
 
@@ -35,8 +39,9 @@ class RegisterController extends Controller
      *
      * @return void
      */
-    public function __construct()
+    public function __construct(AuthenticationService $authenticationService)
     {
+        $this->authenticationService = $authenticationService;
         $this->middleware('guest');
     }
 
@@ -49,7 +54,9 @@ class RegisterController extends Controller
     protected function validator(array $data)
     {
         return Validator::make($data, [
-            'name' => ['required', 'string', 'max:255'],
+            'firstName' => ['required', 'string', 'max:255'],
+            'lastName' => ['required', 'string', 'max:255'],
+            'address' => ['optional', 'string', 'max:255'],
             'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
             'password' => ['required', 'string', 'min:8', 'confirmed'],
         ]);
@@ -68,5 +75,20 @@ class RegisterController extends Controller
             'email' => $data['email'],
             'password' => Hash::make($data['password']),
         ]);
+    }
+
+    protected function register(Request $request)
+    {
+
+        $result = $this->authenticationService->register($request);
+        if (isset($result['data'])) {
+            return redirect()->route('auth.login');
+        } else {
+            $message = isset($result['detail']) ? $result['detail'] : $result['message'];
+            return redirect()->route('auth.register')->with([
+                'message' => $message,
+                'alert-type' => 'danger'
+            ]);
+        }
     }
 }

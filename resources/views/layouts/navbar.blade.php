@@ -7,8 +7,7 @@
 
         <a href="ticket.html" class="btn custom-btn d-lg-none ms-auto me-4">Buy Ticket</a>
 
-        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
-            aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
         </button>
 
@@ -39,7 +38,7 @@
                 </li>
             </ul>
 
-            <a href="" class="nav-link btn custom-btn d-lg-block d-none">Login</a>
+            <a href="{{ route('auth.login') }}" class="nav-link btn custom-btn d-lg-block d-none">Login</a>
         </div>
     </div>
 </nav>
