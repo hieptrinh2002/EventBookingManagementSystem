@@ -1,7 +1,7 @@
 <?php
 use App\Http\Controllers\Merchant\EventController;
 use App\Http\Controllers\Merchant\PromotionController;
-
+use App\Http\Controllers\CheckoutController;
 
 use Illuminate\Support\Facades\Route;
 // Route::get('/events', function () {
@@ -52,3 +52,12 @@ Route::prefix('merchant')->group(function() {
         'destroy' => 'merchant.promotions.destroy',
     ]);
 });
+
+
+// Route to display the checkout page
+Route::get('/checkout/{eventId}', [CheckoutController::class,'index']);
+
+// Route to submit an orders
+Route::post('/checkout/{eventId}', [CheckoutController::class, 'processCheckout']);
+
+Route::get('/error', [\App\Http\Controllers\ErrorController::class,'index']);
