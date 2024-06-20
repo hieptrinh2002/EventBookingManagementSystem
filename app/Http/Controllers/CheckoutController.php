@@ -95,6 +95,7 @@ class CheckoutController extends Controller
 
         $quantityDisplay = 1;
 
+
         return view('checkout.index',compact('event', 'quantityDisplay'));
     }
 
