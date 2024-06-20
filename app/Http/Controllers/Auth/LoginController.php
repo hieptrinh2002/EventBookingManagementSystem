@@ -3,6 +3,8 @@
 namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
+use App\Services\AuthenticationService;
+use Illuminate\Http\Request;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
 
 class LoginController extends Controller
@@ -18,6 +20,8 @@ class LoginController extends Controller
     |
     */
 
+    protected AuthenticationService $authenticationService;
+
     use AuthenticatesUsers;
 
     /**
@@ -32,9 +36,24 @@ class LoginController extends Controller
      *
      * @return void
      */
-    public function __construct()
+    public function __construct(AuthenticationService $authenticationService)
     {
+        $this->authenticationService = $authenticationService;
         $this->middleware('guest')->except('logout');
         $this->middleware('auth')->only('logout');
+    }
+
+    protected function login(Request $request)
+    {
+        $result = $this->authenticationService->login($request);
+        if (isset($result['data'])) {
+            return redirect()->route('merchant.dashboard');
+        } else {
+            $message = isset($result['detail']) ? $result['detail'] : $result['message'];
+            return redirect()->route('auth.login')->with([
+                'message' => $message,
+                'alert-type' => 'danger'
+            ]);
+        }
     }
 }

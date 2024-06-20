@@ -1,12 +1,10 @@
 <?php
+
 use App\Http\Controllers\Merchant\EventController;
 use App\Http\Controllers\Merchant\PromotionController;
 use App\Http\Controllers\CheckoutController;
 
 use Illuminate\Support\Facades\Route;
-// Route::get('/events', function () {
-//     return view('events');
-// });
 
 Route::get('/events', function () {
     return view('events');
@@ -25,11 +23,24 @@ Route::get('/events', [App\Http\Controllers\EventController::class, 'index'])->n
 Route::get('/events/show', [App\Http\Controllers\EventController::class, 'show'])->name('events.show');
 
 //Auth::routes();
+Route::get('/auth/login', function () {
+    return view('auth.login');
+})->name('auth.login');
+
+Route::post('/auth/login', [App\Http\Controllers\Auth\LoginController::class, 'login']);
+
+Route::get('/auth/register', function () {
+    return view('auth.register');
+})->name('auth.register');
+
+Route::post('/auth/register', [App\Http\Controllers\Auth\RegisterController::class, 'register']);
+
+
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 
 
-Route::prefix('merchant')->group(function() {
+Route::prefix('merchant')->group(function () {
     // Route::get('/', [MerchantController::class, 'index'])->name('merchant.index');
 
     Route::resource('events', EventController::class)->names([
