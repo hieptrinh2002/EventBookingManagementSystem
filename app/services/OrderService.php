@@ -13,6 +13,11 @@ class OrderService
         $this->baseUrl = Config::get('services.merchant_api_base_url')."/orders";
     }
 
+    public static function processCheckout(array $initOrderRequest): \Illuminate\Http\Client\Response
+    {
+        return Http::post("http://localhost:8080/order/api/create", $initOrderRequest);
+    }
+
     public function getAllOrdersToday(string $merchantId)
     {
         return $this->getAllOrdersByEndpoint("/today/{$merchantId}");
