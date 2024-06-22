@@ -6,7 +6,12 @@ use App\Http\Controllers\Merchant\MerchantEventController;
 use App\Http\Controllers\Merchant\MerchantAuthController;
 use App\Http\Controllers\Merchant\MerchantProfileController;
 use App\Http\Controllers\Merchant\OrderController;
+
+use App\Http\Controllers\AccountController;
+use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\Merchant\PromotionController;
+use App\Http\Controllers\CheckoutController;
+
 use Illuminate\Support\Facades\Route;
 
 Route::get('/events', function () {
@@ -14,18 +19,14 @@ Route::get('/events', function () {
 });
 Route::get('/', function () {
     return view('welcome');
-});
+})-> name('welcome.index');
 
 
 Route::get('/events', [EventController::class, 'index'])->name('events.index');
 Route::get('/events/show', [EventController::class, 'show'])->name('events.show');
 
-//Auth::routes();
-Route::get('/auth/login', function () {
-    return view('auth.login');
-})->name('auth.login');
-
-Route::post('/auth/login', [App\Http\Controllers\Auth\LoginController::class, 'login']);
+Route::get('/auth/login', [LoginController::class, 'login'])->name('auth.login');
+Route::post('/auth/login', [LoginController::class, 'login']);
 
 Route::get('/auth/register', function () {
     return view('auth.register');
@@ -66,3 +67,14 @@ Route::prefix('merchant')->group(function() {
         ]);
     });
 });
+
+
+// Route to display the checkout page
+Route::get('/checkout/{eventId}', [CheckoutController::class,'index']);
+
+// Route to submit an orders
+Route::post('/checkout/{eventId}', [CheckoutController::class, 'processCheckout']);
+
+Route::get('/error', [\App\Http\Controllers\ErrorController::class,'index']);
+
+Route::get('/account', [AccountController::class,'index'])->name("account.info");
