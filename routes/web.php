@@ -1,5 +1,7 @@
 <?php
 
+use App\Http\Controllers\AccountController;
+use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\Merchant\EventController;
 use App\Http\Controllers\Merchant\PromotionController;
 use App\Http\Controllers\CheckoutController;
@@ -12,7 +14,7 @@ Route::get('/events', function () {
 
 Route::get('/', function () {
     return view('welcome');
-});
+})-> name('welcome.index');
 
 Route::get('/dashboard', function () {
     return view('merchant.dashboard.index');
@@ -22,12 +24,8 @@ Route::get('/dashboard', function () {
 Route::get('/events', [App\Http\Controllers\EventController::class, 'index'])->name('events.index');
 Route::get('/events/show', [App\Http\Controllers\EventController::class, 'show'])->name('events.show');
 
-//Auth::routes();
-Route::get('/auth/login', function () {
-    return view('auth.login');
-})->name('auth.login');
-
-Route::post('/auth/login', [App\Http\Controllers\Auth\LoginController::class, 'login']);
+Route::get('/auth/login', [LoginController::class, 'login'])->name('auth.login');
+Route::post('/auth/login', [LoginController::class, 'login']);
 
 Route::get('/auth/register', function () {
     return view('auth.register');
@@ -62,6 +60,7 @@ Route::prefix('merchant')->group(function () {
         'update' => 'merchant.promotions.update',
         'destroy' => 'merchant.promotions.destroy',
     ]);
+
 });
 
 
@@ -72,3 +71,5 @@ Route::get('/checkout/{eventId}', [CheckoutController::class,'index']);
 Route::post('/checkout/{eventId}', [CheckoutController::class, 'processCheckout']);
 
 Route::get('/error', [\App\Http\Controllers\ErrorController::class,'index']);
+
+Route::get('/account', [AccountController::class,'index'])->name("account.info");
