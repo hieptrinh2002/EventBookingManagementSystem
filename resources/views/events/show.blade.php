@@ -29,7 +29,7 @@
                     <div class="card-body">
                         <h5 class="card-title">Only participate when there's a confirmation</h5>
                         <h6 class="card-subtitle mb-2 text-muted">{{$event['currency']}} {{$event['price']}}</h6>
-                        <form action="{{ route('checkout.process', ['eventId' => $event['id']]) }}" method="POST">
+                        <form action="{{ route('checkout.process', ['eventId' => $event['id']]) }}" method="GET">
                             <div class="form-group">
                                 <label for="ticketQuantity">Ticket amount</label>
                                 <input type="number" class="form-control" id="ticketQuantity" value="1" min="1">
