@@ -1,4 +1,5 @@
 <?php
+
 use App\Http\Controllers\EventController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\Merchant\DashboardController;
@@ -23,7 +24,7 @@ Route::get('/', function () {
 
 
 Route::get('/events', [EventController::class, 'index'])->name('events.index');
-Route::get('/events/show', [EventController::class, 'show'])->name('events.show');
+Route::get('/events/{id}', [EventController::class, 'show'])->name('events.show');
 
 Route::get('/auth/login', [LoginController::class, 'login'])->name('auth.login');
 Route::post('/auth/login', [LoginController::class, 'login']);
@@ -37,7 +38,7 @@ Route::post('/auth/register', [App\Http\Controllers\Auth\RegisterController::cla
 Route::get('/home', [HomeController::class, 'index'])->name('home');
 
 
-Route::prefix('merchant')->group(function() {
+Route::prefix('merchant')->group(function () {
 
     Route::get('register', [MerchantAuthController::class, 'showRegisterForm'])->name('merchant.pages.register');
     Route::post('register', [MerchantAuthController::class, 'register'])->name('merchant.register');
