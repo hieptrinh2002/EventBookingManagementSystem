@@ -10,7 +10,6 @@ use App\Http\Requests\events\UpdateEventRequest;
 use Illuminate\Http\Request;
 use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Support\Facades\Cookie;
-use Illuminate\Support\Facades\Http;
 
 class MerchantEventController extends Controller
 {
@@ -65,7 +64,7 @@ class MerchantEventController extends Controller
         {
             return to_route('merchant.events.index')->with([
                 'message' => 'create failure',
-                'alert-type' => 'danger'
+                'alert-type' => 'error'
             ]);
         }
     }
@@ -75,6 +74,12 @@ class MerchantEventController extends Controller
     {
         $event = $this->eventService->getEventById($eventId);
         return view("merchant.events.edit", ["event" => $event]);
+    }
+
+    public function show(string $eventId)
+    {
+        $event = $this->eventService->getEventById($eventId);
+        return view("merchant.events.show", ["event" => $event]);
     }
 
     public function update(UpdateEventRequest $request, string $id): \Illuminate\Http\RedirectResponse

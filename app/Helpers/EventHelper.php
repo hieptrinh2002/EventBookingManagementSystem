@@ -8,6 +8,11 @@ class EventHelper
 {
     public static function filterEvents(array $events, Request $request)
     {
+        if(count($request->all()))
+        {
+            return $events;
+        }
+
         $price_from = $request->input('price_from');
         $price_to = $request->input('price_to');
         $stock = $request->input('stock');
@@ -24,7 +29,7 @@ class EventHelper
             return
                 (!$price_from || $event['price'] >= $price_from) &&
                 (!$price_to || $event['price'] <= $price_to) &&
-                (!$stock || $event['stock'] == $stock) &&
+                (!$stock || $event['stock'] >= $stock) &&
                 (!$min_quantity || $event['minQuantity'] >= $min_quantity) &&
                 (!$max_quantity || $event['maxQuantity'] <= $max_quantity) &&
                 (!$location || stripos($event['location'], $location) !== false) && // LIKE search
@@ -32,7 +37,7 @@ class EventHelper
                 (!$end_date || $event['endDate'] <= $end_date) &&
                 (!$status || $event['status'] == $status) &&
                 (!$type || $event['type'] == $type) &&
-                (!$is_out_of_stock || $event['isOutOfStock']);
+                (!$is_out_of_stock || $event['isOutOfStock'] == $event['maxQuantity']);
         });
     }
 }

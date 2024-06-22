@@ -24,7 +24,7 @@
         </div>
         <div class="col-md-2">
             <div class="form-group">
-                <label class="fw-bold" for="stock">Stock:</label>
+                <label class="fw-bold" for="stock">Min stock:</label>
                 <input
                     style=" display: block;
                         border: 1px solid #ced4da;

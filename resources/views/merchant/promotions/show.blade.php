@@ -7,22 +7,22 @@
                     <div class="row justify-content-center">
                         <div class="col-md-12">
                             <div class="card border-primary mb-3">
-                                <div class="card-header bg-primary text-white fs-5 fw-bold">Edit Promotion</div>
+                                <div class="card-header bg-primary text-white fs-5 fw-bold">Show promotion</div>
                                 <div class="card-body px-5">
                                     <form class="px-3" method="post"
                                         action="{{ route('merchant.promotions.update', $promotion['id']) }}">
                                         @csrf
                                         @method('put')
-                                        <input type="hidden" name="merchantId"
-                                            value="{{ old('merchantId') ?? $event['merchantId'] }}">
+                                        <input disabled type="hidden" name="merchantId"
+                                            value="{{ $promotion['merchantId'] }}">
 
                                         <div class="form-group mb-2">
                                             <div class="row d-flex justify-content-between mb-2">
                                                 <div class="col-md-5">
                                                     <div class="form-group mb-2">
-                                                        <label class="fw-bold" for="event-start-date">Start Date</label>
-                                                        <input type="datetime-local" class="form-control"
-                                                            id="event-start-date" name="dateStart"
+                                                        <label class="fw-bold" for="promotion-start-date">Start Date</label>
+                                                        <input disabled type="datetime-local" class="form-control"
+                                                            id="promotion-start-date" name="dateStart"
                                                             value="{{ old('dateStart') ?? $promotion['dateStart'] }}">
                                                         @error('dateStart')
                                                             <span class="text-danger"> {{ $message }}</span>
@@ -31,11 +31,11 @@
                                                 </div>
                                                 <div class="col-md-5">
                                                     <div class="form-group mb-2">
-                                                        <label class="fw-bold" for="event-end-date">
+                                                        <label class="fw-bold" for="promotion-end-date">
                                                             Date expire
                                                         </label>
-                                                        <input type="datetime-local" class="form-control" name="dateExpire"
-                                                            id="event-end-date"
+                                                        <input disabled type="datetime-local" class="form-control"
+                                                            name="dateExpire" id="promotion-end-date"
                                                             value="{{ old('dateExpire') ?? $promotion['dateExpire'] }}">
                                                         @error('dateExpire')
                                                             <span class="text-danger"> {{ $message }}</span>
@@ -46,7 +46,7 @@
                                             <div class="form-group mb-2">
                                                 <div class="input-group input-group-static mb-4">
                                                     <label class="fw-bold">Code</label>
-                                                    <input type="text" name="code" class="form-control"
+                                                    <input disabled type="text" name="code" class="form-control"
                                                         value="{{ old('code') ?? $promotion['code'] }}">
                                                     @error('code')
                                                         <span class="text-danger"> {{ $message }}</span>
@@ -56,7 +56,7 @@
                                             <div class="form-group mb-2">
                                                 <div class="input-group input-group-static mb-4">
                                                     <label class="fw-bold">Condition</label>
-                                                    <input type="number" name="condition" step="0.01"
+                                                    <input disabled type="number" name="condition" step="0.01"
                                                         class="form-control"
                                                         value="{{ old('condition') ?? $promotion['condition'] }}">
                                                     @error('condition')
@@ -66,8 +66,19 @@
                                             </div>
                                             <div class="form-group mb-2">
                                                 <div class="input-group input-group-static mb-4">
-                                                    <label class="fw-bold">Discount </label>
-                                                    <input type="number" name="discount" step="0.01"
+                                                    <label class="fw-bold">Quantity Available</label>
+                                                    <input disabled type="number" name="quantityAvailable"
+                                                        class="form-control"
+                                                        value="{{ old('quantityAvailable') ?? $promotion['quantityAvailable'] }}">
+                                                    @error('quantityAvailable')
+                                                        <span class="text-danger"> {{ $message }}</span>
+                                                    @enderror
+                                                </div>
+                                            </div>
+                                            <div class="form-group mb-2">
+                                                <div class="input-group input-group-static mb-4">
+                                                    <label class="fw-bold">Discount (%)</label>
+                                                    <input disabled type="number" name="discount" step="0.01"
                                                         class="form-control"
                                                         value="{{ old('discount') ?? $promotion['discount'] }}">
 
@@ -76,7 +87,6 @@
                                                     @enderror
                                                 </div>
                                             </div>
-                                            <button type="submit" class="btn btn-primary">Update promotion</button>
                                     </form>
                                 </div>
                             </div>

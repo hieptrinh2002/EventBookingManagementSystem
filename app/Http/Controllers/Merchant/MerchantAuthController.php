@@ -41,7 +41,7 @@ class MerchantAuthController extends Controller
         {
             return to_route('merchant.pages.register')->with([
                 'message' =>  $response['message'],
-                'alert-type' => 'danger'
+                'alert-type' => 'error'
             ]);
         }
     }
