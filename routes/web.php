@@ -1,4 +1,5 @@
 <?php
+
 use App\Http\Controllers\EventController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\Merchant\DashboardController;
@@ -19,11 +20,11 @@ Route::get('/events', function () {
 });
 Route::get('/', function () {
     return view('welcome');
-})-> name('welcome.index');
+})->name('welcome.index');
 
 
 Route::get('/events', [EventController::class, 'index'])->name('events.index');
-Route::get('/events/show', [EventController::class, 'show'])->name('events.show');
+Route::get('/events/{id}', [EventController::class, 'show'])->name('events.show');
 
 Route::get('/auth/login', [LoginController::class, 'login'])->name('auth.login');
 Route::post('/auth/login', [LoginController::class, 'login']);
@@ -37,7 +38,7 @@ Route::post('/auth/register', [App\Http\Controllers\Auth\RegisterController::cla
 Route::get('/home', [HomeController::class, 'index'])->name('home');
 
 
-Route::prefix('merchant')->group(function() {
+Route::prefix('merchant')->group(function () {
 
     Route::get('register', [MerchantAuthController::class, 'showRegisterForm'])->name('merchant.pages.register');
     Route::post('register', [MerchantAuthController::class, 'register'])->name('merchant.register');
@@ -70,11 +71,11 @@ Route::prefix('merchant')->group(function() {
 
 
 // Route to display the checkout page
-Route::get('/checkout/{eventId}', [CheckoutController::class,'index']);
+Route::get('/checkout/{eventId}', [CheckoutController::class, 'index']);
 
 // Route to submit an orders
-Route::post('/checkout/{eventId}', [CheckoutController::class, 'processCheckout']);
+Route::post('/checkout/{eventId}', [CheckoutController::class, 'processCheckout'])->name('checkout.process');
 
-Route::get('/error', [\App\Http\Controllers\ErrorController::class,'index']);
+Route::get('/error', [\App\Http\Controllers\ErrorController::class, 'index']);
 
-Route::get('/account', [AccountController::class,'index'])->name("account.info");
+Route::get('/account', [AccountController::class, 'index'])->name("account.info");
