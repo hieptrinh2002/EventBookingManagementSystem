@@ -8,7 +8,7 @@
             <div class="col-md-8">
                 <h1>{{ $event['title'] }}</h1>
                 <p class="text-muted">{{ $event['description'] }}</p>
-                <div class="media my-5">
+                <div class="media my-4">
                     <img src="https://img.evbuc.com/https%3A%2F%2Fcdn.evbuc.com%2Fimages%2F754099869%2F1316595019433%2F1%2Foriginal.20240428-034919?w=940&auto=format%2Ccompress&q=75&sharp=10&s=5b5b595209bbc9e0b7c52021529464f1" class="mr-3" alt="Shichida Vietnam">
                 </div>
                 <div class="mb-3">
@@ -29,7 +29,7 @@
                     <div class="card-body">
                         <h5 class="card-title">Only participate when there's a confirmation</h5>
                         <h6 class="card-subtitle mb-2 text-muted">{{$event['currency']}} {{$event['price']}}</h6>
-                        <form method="POST">
+                        <form action="{{ route('checkout.process', ['eventId' => $event['id']]) }}" method="POST">
                             <div class="form-group">
                                 <label for="ticketQuantity">Ticket amount</label>
                                 <input type="number" class="form-control" id="ticketQuantity" value="1" min="1">

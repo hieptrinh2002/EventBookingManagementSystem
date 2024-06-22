@@ -20,7 +20,7 @@ Route::get('/events', function () {
 });
 Route::get('/', function () {
     return view('welcome');
-})-> name('welcome.index');
+})->name('welcome.index');
 
 
 Route::get('/events', [EventController::class, 'index'])->name('events.index');
@@ -71,11 +71,11 @@ Route::prefix('merchant')->group(function () {
 
 
 // Route to display the checkout page
-Route::get('/checkout/{eventId}', [CheckoutController::class,'index']);
+Route::get('/checkout/{eventId}', [CheckoutController::class, 'index']);
 
 // Route to submit an orders
-Route::post('/checkout/{eventId}', [CheckoutController::class, 'processCheckout']);
+Route::post('/checkout/{eventId}', [CheckoutController::class, 'processCheckout'])->name('checkout.process');
 
-Route::get('/error', [\App\Http\Controllers\ErrorController::class,'index']);
+Route::get('/error', [\App\Http\Controllers\ErrorController::class, 'index']);
 
-Route::get('/account', [AccountController::class,'index'])->name("account.info");
+Route::get('/account', [AccountController::class, 'index'])->name("account.info");
