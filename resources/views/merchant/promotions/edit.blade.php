@@ -13,6 +13,9 @@
                                         action="{{ route('merchant.promotions.update', $promotion['id']) }}">
                                         @csrf
                                         @method('put')
+                                        <input type="hidden" name="merchantId"
+                                            value="{{ old('merchantId') ?? $event['merchantId'] }}">
+
                                         <div class="form-group mb-2">
                                             <div class="row d-flex justify-content-between mb-2">
                                                 <div class="col-md-5">

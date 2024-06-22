@@ -1,10 +1,9 @@
 <?php
 namespace App\Services;
 use Illuminate\Support\Facades\Http;
-use App\Helpers\ApiHelper;
-use Illuminate\Http\Client\Response;
 use Illuminate\Support\Facades\Config;
-use Illuminate\Support\Facades\Log;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Cookie;
 
 class EventService
 {
@@ -13,14 +12,13 @@ class EventService
     public function __construct()
     {
         // Sử dụng config để lấy giá trị từ biến môi trường
-        $this->baseUrl = Config::get('services.merchant_event_api_base_url');
+        $this->baseUrl = Config::get('services.merchant_api_base_url');
     }
 
     public function getAllEventsByMerchantId(string $merchantId)
     {
         try {
-            $response = Http::get("{$this->baseUrl}/{$merchantId}/events");
-
+            $response = Http::withToken(Cookie::get('merchant_jwt'))->get("{$this->baseUrl}/{$merchantId}/events");
             if ($response->successful()) {
                 $events = $response->json()['data']['events'] ?? [];
                 return $events;
@@ -34,20 +32,22 @@ class EventService
 
     public function createEvent(array $data)
     {
-        $response = Http::post("{$this->baseUrl}/events/create", $data);
-        if ($response->successful()) {
-            return true;
+        try{
+            $response = Http::withToken(Cookie::get('merchant_jwt'))->post("{$this->baseUrl}/events/create", $data);
+            return $response->successful();
         }
-        return false;
+        catch (\Exception $e) {
+            return false;
+        }
     }
 
-    public function getEventById(string $eventId, string $merchantId )
+    public function getEventById(string $eventId)
     {
         try {
-            $response = Http::get("{$this->baseUrl}/{$merchantId}/events/{$eventId}");
+            $response = Http::withToken(Cookie::get('merchant_jwt'))->get("{$this->baseUrl}/events/{$eventId}");
 
             if ($response->successful()) {
-                $events = $response->json()['data']['event'] ?? [];
+                $events = $response->json()['data'] ?? [];
                 return $events;
             }
 
@@ -59,7 +59,7 @@ class EventService
 
     public function update($request, $id)
     {
-        $response = Http::put("{$this->baseUrl}/events/{$id}", $request->all());
+        $response = Http::withToken(Cookie::get('merchant_jwt'))->put("{$this->baseUrl}/events/{$id}", $request->all());
         return $response->successful();
     }
 }

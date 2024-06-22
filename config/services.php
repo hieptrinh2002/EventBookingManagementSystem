@@ -35,6 +35,6 @@ return [
         ],
     ],
 
-    'merchant_event_api_base_url' => env('MERCHANT_EVENT_API_BASE_URL'),
     'user_profile_url' =>  env('USER_PROFILE_URL'),
+    'merchant_api_base_url' => env('MERCHANT_API_BASE_URL'),
 ];

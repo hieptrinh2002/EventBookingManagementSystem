@@ -73,7 +73,8 @@
                                                     <label class="fw-bold" for="event-start-date">Start Date</label>
                                                     <input type="datetime-local" class="form-control" id="event-start-date"
                                                         name="startDate"
-                                                        value="{{ old('startDate') ?? $event['startDate'] }}">
+                                                        value="{{ old('startDate') ?? (isset($event['startDate']) ? date('Y-m-d\TH:i', strtotime($event['startDate'])) : '') }}">
+
                                                     @error('startDate')
                                                         <span class="text-danger"> {{ $message }}</span>
                                                     @enderror
@@ -84,7 +85,9 @@
                                                     <label class="fw-bold" for="event-end-date">
                                                         End Date</label>
                                                     <input type="datetime-local" class="form-control" id="event-end-date"
-                                                        name="endDate" value="{{ old('endDate') ?? $event['endDate'] }}">
+                                                        name="endDate"
+                                                        value="{{ old('endDate') ?? (isset($event['endDate']) ? date('Y-m-d\TH:i', strtotime($event['endDate'])) : '') }}">
+
                                                     @error('endDate')
                                                         <span class="text-danger"> {{ $message }}</span>
                                                     @enderror
@@ -107,7 +110,7 @@
                                                 <div class="form-group mb-2">
                                                     <label class="fw-bold" for="event-status">Event Status</label>
                                                     <select class="form-control" id="event-status" name="status">
-                                                        <option value="TALK_SHOW"
+                                                        <option value="NOT_YET_STARTED"
                                                             {{ old('status') == 'NOT_YET_STARTED' ? 'selected' : '' }}>Not
                                                             yet started
                                                         </option>

@@ -1,18 +1,18 @@
 <?php
 
-namespace App\Http\Requests\promotions;
+namespace App\Http\Requests\Promotions;
 
 use Carbon\Carbon;
 use Illuminate\Foundation\Http\FormRequest;
 
-class CreatePromotionRequest extends FormRequest
+class UpdatePromotionRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
      */
     public function authorize(): bool
     {
-        return false;
+        return true;
     }
 
     /**
