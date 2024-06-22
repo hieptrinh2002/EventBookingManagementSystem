@@ -18,15 +18,13 @@ use Illuminate\Support\Facades\Route;
 Route::get('/events', function () {
     return view('events');
 });
-Route::get('/', function () {
-    return view('welcome');
-})->name('welcome.index');
 
+Route::get('/', function () {return view('welcome');})-> name('welcome.index');
 
 Route::get('/events', [EventController::class, 'index'])->name('events.index');
 Route::get('/events/{id}', [EventController::class, 'show'])->name('events.show');
 
-Route::get('/auth/login', [LoginController::class, 'login'])->name('auth.login');
+Route::get('/auth/login', [LoginController::class, 'showLoginForm'])->name('auth.login');
 Route::post('/auth/login', [LoginController::class, 'login']);
 
 Route::get('/auth/register', function () {

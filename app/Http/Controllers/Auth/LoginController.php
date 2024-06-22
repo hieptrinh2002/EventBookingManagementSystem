@@ -54,43 +54,41 @@ class LoginController extends Controller
      */
     protected function login(Request $request): RedirectResponse
     {
-        // Check if the access token exists in cookies
+        // Check for valid access token in cookie first
         $accessToken = $request->cookie('app-token');
+        if (isset($accessToken) && $this->authenticationService->validateAccessToken($accessToken)) {
+            return redirect()->route('welcome.index')->with('isDisplay', true);
+        }
 
-        echo "<br>";
-        print_r($accessToken);
-        echo "<br>";
+        // Perform login if no valid access token found
+        try {
+            $result = $this->authenticationService->login($request);
 
-        if ($accessToken) {
+            if (isset($result['data'])) {
+                $accessToken = $result['data']['accessToken'];
 
-            // Validate the access token
-            if ($this->authenticationService->validateAccessToken($accessToken)) {
-                // If valid, redirect to welcome page
-                return redirect()->route('welcome.index')->with('isDisplay', true);
+                // Create HTTP-only secure cookie
+                $cookie = cookie('app-token', $accessToken, config('session.lifetime'), null, null, true, true);
+
+                // Redirect to welcome with cookie
+                return redirect()->route('welcome.index')->with('isDisplay', true)->withCookie($cookie);
             }
+
+            // Handle login failure
+            $message = $result['detail'] ?? $result['message'];
+            return redirect()->route('auth.login')->with([
+                'message' => $message,
+                'alert-type' => 'danger'
+            ]);
+        } catch (Exception $e) {
+            // Log the error and provide a generic error message
+            error_log($e->getMessage() . "\n" . $e->getTraceAsString());
+            return redirect()->route('auth.login')->with([
+                'message' => 'An error occurred during login. Please try again.',
+                'alert-type' => 'danger'
+            ]);
         }
-
-        // Perform login if no valid access token is found
-        $result = $this->authenticationService->login($request);
-
-        if (isset($result['data'])) {
-            $accessToken = $result['data']['accessToken'];
-
-            // Create an HTTP-only secure cookie
-            $cookie = cookie('app-token', $accessToken, config('session.lifetime'), null, null, true, true);
-
-            // Redirect to welcome page with the access token cookie
-            return redirect()->route('welcome.index')->with('isDisplay', true)->withCookie($cookie);
-        }
-
-        // Handle login failure
-        $message = $result['detail'] ?? $result['message'];
-
-        // Redirect back to login page with error message
-        return redirect()->route('auth.login')->with([
-            'message' => $message,
-            'alert-type' => 'danger'
-        ]);
     }
+
 }
 

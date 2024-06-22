@@ -9,6 +9,13 @@ use Illuminate\Support\Facades\Http;
 
 class CheckoutController extends Controller
 {
+
+    public function __construct(Request $request)
+    {
+        $accessToken = $request->cookie('app-token');
+        $this->middleware('auth');
+    }
+
     //
     public function index($eventId)
     {
