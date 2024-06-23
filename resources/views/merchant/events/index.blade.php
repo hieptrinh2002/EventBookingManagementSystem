@@ -96,8 +96,8 @@
                                                 view orders
                                             </a>
                                             <a class="btn btn-link text-dark px-3 mb-0"
-                                                href="{{ route('merchant.events.edit', $event['id']) }}">
-                                                <i class="material-icons fs-4 me-2">edit</i>Edit
+                                                href="{{ route('merchant.events.show', $event['id']) }}">
+                                                Details
                                             </a>
                                         </td>
                                     </tr>

@@ -12,7 +12,7 @@ class CreatePromotionRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return false;
+        return true;
     }
 
     /**
@@ -24,10 +24,11 @@ class CreatePromotionRequest extends FormRequest
     {
         return [
             'code' => 'required|string|max:25',
-            'dateStart' => 'required|date',
+            'dateStart' => 'required|date|after_or_equal:today',
             'dateExpire' => 'required|date|after:dateStart',
-            'condition' => 'required',
-            'discount' => 'required|between:0,100',
+            'condition' => 'required|integer|min:1',
+            'discount' => 'required|numeric|min:1|max:100',
+            'quantityAvailable' => 'required|integer|min:1'
         ];
     }
 
@@ -36,8 +37,9 @@ class CreatePromotionRequest extends FormRequest
         $this->merge([
             'discount' => (float) $this->discount,
             'condition' => (float) $this->condition,
-            'dateStart' => Carbon::parse($this->startDate)->format('Y-m-d\TH:i:s\Z'),
-            'dateExpire' => Carbon::parse($this->endDate)->format('Y-m-d\TH:i:s\Z'),
+            'quantityAvailable' => (int) $this->quantityAvailable,
+            'dateStart' => Carbon::parse($this->dateStart)->format('Y-m-d\TH:i:s\Z'),
+            'dateExpire' => Carbon::parse($this->dateExpire)->format('Y-m-d\TH:i:s\Z'),
         ]);
     }
 }

@@ -7,6 +7,8 @@ use App\Http\Requests\promotions\CreatePromotionRequest;
 use App\Http\Requests\Promotions\UpdatePromotionRequest;
 use App\Services\PromotionService;
 use Illuminate\Http\Request;
+use Illuminate\Pagination\LengthAwarePaginator;
+use Illuminate\Support\Facades\Cookie;
 
 class PromotionController extends Controller
 {
@@ -20,27 +22,25 @@ class PromotionController extends Controller
         $this->promotionService = $promotionService;
     }
 
-    public function index()
+    public function index(Request $request)
     {
-        $promotions = [
-            [
-                "id" => "cbda15bf-ec8b-40a4-96a9-38ae62b96710",
-                "code" => "gh454hd67j",
-                "dateStart" => "2024-05-30T17:00:00.000+00:00",
-                "dateExpire" => "2024-06-30T17:00:00.000+00:00",
-                "condition" => 80.25,
-                "discount" => 15
-            ],
-            [
-                "id" => "cbda15bf-ec8b-40a4-96a9-38ae6dedede",
-                "code" => ")@*@)FH@hc",
-                "dateStart" => "2024-04-30T17:00:00.000+00:00",
-                "dateExpire" => "2024-05-10T17:00:00.000+00:00",
-                "condition" => 80.25,
-                "discount" => 15
-            ]
-        ];
-        return view('merchant.promotions.index', ['promotions' => $promotions]);
+        $merchantId = Cookie::get('merchant_id');
+        $promotions = $this->promotionService->getAllPromotionsByMerchantId($merchantId);
+
+
+        $perPage = 10; // Number of items per page
+        $page = $request->input('page', 1); // Get the current page or default to 1
+        $offset = ($page - 1) * $perPage;
+
+        $paginatedPromotions= new LengthAwarePaginator(
+            array_slice($promotions, $offset, $perPage),
+            count($promotions),
+            $perPage,
+            $page,
+            ['path' => $request->url(), 'query' => $request->query()]
+        );
+
+        return view('merchant.promotions.index', ['promotions' => $paginatedPromotions]);
     }
 
     /**
@@ -48,17 +48,29 @@ class PromotionController extends Controller
      */
     public function create()
     {
-        $merchantId = "a0a9be74-199c-4a76-813e-cd7553065480";
+        $merchantId = Cookie::get('merchant_id');
         return view('merchant.promotions.create',['merchantId' => $merchantId]);
     }
 
     /**
      * Store a newly created resource in storage.
      */
-       public function store(CreatePromotionRequest $request)
+    public function store(CreatePromotionRequest $request)
     {
-        $this->promotionService->createPromotion($request->all());
-        return to_route('merchant.promotions.index')->with(['message' => 'create success']);
+        if($this->promotionService->createPromotion($request->all()))
+        {
+            return to_route('merchant.promotions.index')->with([
+                'message' => 'create success',
+                'alert-type' => 'success'
+            ]);
+        }
+        else
+        {
+            return to_route('merchant.promotions.index')->with([
+                'message' => 'create failure',
+                'alert-type' => 'error'
+            ]);
+        }
     }
 
     /**
@@ -66,7 +78,8 @@ class PromotionController extends Controller
      */
     public function show(string $id)
     {
-        //
+        $promotion = $this->promotionService->getPromotionById($id);
+        return view("merchant.promotions.show", ["promotion" => $promotion]);
     }
 
     /**
@@ -74,17 +87,7 @@ class PromotionController extends Controller
      */
     public function edit(string $id)
     {
-        #$promotion = $this->promotionService->getPromotionById($id);
-        $promotion = [
-            "id" => "cbda15bf-ec8b-40a4-96a9-38ae62b96710",
-            "code" => "gh454hd67j",
-            "dateStart" => "2024-05-30 15:20:15",
-            "dateExpire" => "2024-05-30 15:20:15",
-            "condition" => 80.25,
-            "discount" => 15,
-            "merchantId" => "a0a9be74-199c-4a76-813e-cd7553065480"
-        ];
-
+        $promotion = $this->promotionService->getPromotionById($id);
         return view("merchant.promotions.edit", ["promotion" => $promotion]);
     }
 

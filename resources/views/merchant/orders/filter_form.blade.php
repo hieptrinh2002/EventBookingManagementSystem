@@ -19,32 +19,32 @@
 
         <div class="col-md-3">
             <label for="payment_method" class="form-label fw-bold">Payment Method:</label>
-            <select id="payment_method" name="payment_method" class="form-select">
-                <option value="">--Select--</option>
-                <option value="MOMO" {{ request()->get('payment_method') == 'MOMO' ? 'selected' : '' }}>
+            <select id="payment_method" name="payment_method" class="form-select px-3">
+                <option value="0">--Select--</option>
+                <option value="0" {{ request()->get('payment_method') == '0' ? 'selected' : '' }}>
                     MOMO</option>
-                <option value="COD" {{ request()->get('payment_method') == 'COD' ? 'selected' : '' }}>
+                <option value="1" {{ request()->get('payment_method') == '1' ? 'selected' : '' }}>
                     COD</option>
-                <option value="FUNDIIN" {{ request()->get('payment_method') == 'FUNDIIN' ? 'selected' : '' }}>
+                <option value="2" {{ request()->get('payment_method') == '2' ? 'selected' : '' }}>
                     FUNDIIN</option>
             </select>
         </div>
         <div class="col-md-3">
             <label for="status" class="form-label fw-bold">Status:</label>
-            <select id="status" name="status" class="form-select">
+            <select id="status" name="status" class="form-select px-3">
                 <option value="">--Select--</option>
-                <option value="CREATED" {{ request()->get('status') == 'CREATED' ? 'selected' : '' }}>
+                <option value="0" {{ request()->get('status') == '0' ? 'selected' : '' }}>
                     CREATED</option>
-                <option value="PENDING" {{ request()->get('status') == 'PENDING' ? 'selected' : '' }}>
+                <option value="1" {{ request()->get('status') == '1' ? 'selected' : '' }}>
                     PENDING
                 </option>
-                <option value="SUCCESS" {{ request()->get('status') == 'SUCCESS' ? 'selected' : '' }}>
+                <option value="2" {{ request()->get('status') == '2' ? 'selected' : '' }}>
                     SUCCESS
                 </option>
-                <option value="FAILED" {{ request()->get('status') == 'FAILED' ? 'selected' : '' }}>
+                <option value="3" {{ request()->get('status') == '3' ? 'selected' : '' }}>
                     FAILED
                 </option>
-                <option value="CANCELED" {{ request()->get('status') == 'CANCELED' ? 'selected' : '' }}>
+                <option value="4" {{ request()->get('status') == '4' ? 'selected' : '' }}>
                     CANCELED
                 </option>
             </select>

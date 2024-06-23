@@ -170,16 +170,18 @@
                                                     {{ \Carbon\Carbon::parse($order['createdDate'])->format('d/m/Y H:i:s') }}
                                                 </td>
                                                 <td class="text-center"> {{ $order['quantity'] }} </td>
-                                                <td class="ps-3"> {{ $order['amount'] }} </td>
+                                                <td style="padding-left: 4rem">
+                                                    {{ number_format($order['amount'], 0, ',', '.') . ' đ' }}
+                                                </td>
                                                 <td class="text-center">
                                                     @if ($order['status'] == 0)
-                                                        <i class="fas fa-check-circle"></i>
+                                                        <i class="my-2 fas fa-check-circle"></i>
                                                     @elseif ($order['status'] == 1)
-                                                        <i class="fas fa-check-circle" style="color: orange;"></i>
+                                                        <i class="my-2 fas fa-check-circle" style="color: orange;"></i>
                                                     @elseif ($order['status'] == 2)
-                                                        <i class="fas fa-check-circle" style="color: green;"></i>
+                                                        <i class="my-2 fas fa-check-circle" style="color: green;"></i>
                                                     @elseif ($order['status'] == 3)
-                                                        <i class="fas fa-check-circle" style="color: red;"></i>
+                                                        <i class="my-2 fas fa-check-circle" style="color: red;"></i>
                                                     @else
                                                         {{ $order['status'] }}
                                                     @endif
@@ -191,7 +193,10 @@
                             </div>
                         </div>
                     </div>
-
+                    <hr>
+                    <div class="mx-5">
+                        {{ $latestOrders->links('vendor.pagination.bootstrap-5') }}
+                    </div>
                 </div>
             </div>
         @endif

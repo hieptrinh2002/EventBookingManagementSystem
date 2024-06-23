@@ -2,7 +2,7 @@
 namespace App\Services;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Config;
-
+use Illuminate\Support\Facades\Cookie;
 
 class PromotionService
 {
@@ -17,9 +17,9 @@ class PromotionService
     public function getAllPromotionsByMerchantId(string $merchantId)
     {
         try {
-            $response = Http::get("{$this->baseUrl}/{$merchantId}/promotions");
+            $response = Http::withToken(Cookie::get('merchant_jwt'))->get("{$this->baseUrl}/{$merchantId}/promotions");
             if ($response->successful()) {
-                $promotions = $response->json()['data']['promotions'] ?? [];
+                $promotions = $response->json()['data'] ?? [];
                 return $promotions;
             }
 
@@ -32,17 +32,17 @@ class PromotionService
     public function createPromotion(array $data)
     {
         // Gọi API service để tạo promotion mới
-        $response = Http::post("{$this->baseUrl}/promotions", $data);
+        $response = Http::withToken(Cookie::get('merchant_jwt'))->post("{$this->baseUrl}/promotions/create", $data);
         return $response->successful();
     }
 
     public function getPromotionById(string $promotionId)
     {
         try {
-            $response = Http::get("{$this->baseUrl}/promotions/{$promotionId}");
+            $response = Http::withToken(Cookie::get('merchant_jwt'))->get("{$this->baseUrl}/promotions/{$promotionId}");
 
             if ($response->successful()) {
-                $promotions = $response->json()['data']['promotion'] ?? [];
+                $promotions = $response->json()['data'] ?? [];
                 return $promotions;
             }
 
@@ -54,7 +54,7 @@ class PromotionService
 
     public function update($request, $id)
     {
-        $response = Http::put("{$this->baseUrl}/promotions/{$id}", $request->all());
+        $response = Http::withToken(Cookie::get('merchant_jwt'))->put("{$this->baseUrl}/promotions/{$id}", $request->all());
         return $response->successful();
     }
 }

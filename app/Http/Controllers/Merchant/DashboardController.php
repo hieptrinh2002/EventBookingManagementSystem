@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Services\OrderService;
 use Illuminate\Http\Request;
 use App\Helpers\OrderHelper;
+use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Support\Facades\Cookie;
 
 class DashboardController extends Controller
@@ -28,9 +29,23 @@ class DashboardController extends Controller
 
         $todayAmount = OrderHelper::totalMoneyOfOrders($this->orderService->getAllOrdersToday($merchantId));
 
+        //Pagination
+        $perPage = 10;
+        $page = $request->input('page', 1); // Get the current page or default to 1
+        $offset = ($page - 1) * $perPage;
+
+        $paginatedLatestOrders = new LengthAwarePaginator(
+            array_slice($latestOrders, $offset, $perPage),
+            count($latestOrders),
+            $perPage,
+            $page,
+            ['path' => $request->url(), 'query' => $request->query()]
+        );
+
+
         return view('merchant.dashboard.index', ['revenueDataMonth' => $revenueDataMonth,
                                                 'revenueDataQuater' => $revenueDataQuater,
-                                                'latestOrders'=> $latestOrders,
+                                                'latestOrders'=> $paginatedLatestOrders,
                                                 'todayAmount'=> $todayAmount]);
     }
 }

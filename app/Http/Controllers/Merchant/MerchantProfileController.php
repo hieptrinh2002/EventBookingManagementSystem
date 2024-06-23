@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Merchant;
 
 use App\Http\Controllers\Controller;
 use App\Services\MerchantProfileService;
+use Illuminate\Support\Facades\Cookie;
 
 class MerchantProfileController extends Controller
 {
@@ -16,7 +17,7 @@ class MerchantProfileController extends Controller
 
     public function show()
     {
-        $merchantId = "a0a9be74-199c-4a76-813e-cd7553065480";
+        $merchantId = Cookie::get('merchant_id');
         $merchant = $this->merchantProfileService->getMerchantById($merchantId);
         return view('merchant.profile.show',compact('merchant'));
     }

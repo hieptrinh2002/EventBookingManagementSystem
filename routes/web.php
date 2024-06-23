@@ -53,6 +53,7 @@ Route::prefix('merchant')->group(function () {
             'create' => 'merchant.events.create',
             'store' => 'merchant.events.store',
             'edit' => 'merchant.events.edit',
+            'show' => 'merchant.events.show',
             'update' => 'merchant.events.update',
             Route::get('{event}/orders', [OrderController::class, 'index'])->name('events.orders.index')
         ]);
@@ -62,6 +63,7 @@ Route::prefix('merchant')->group(function () {
             'create' => 'merchant.promotions.create',
             'store' => 'merchant.promotions.store',
             'edit' => 'merchant.promotions.edit',
+            'show' => 'merchant.promotions.show',
             'update' => 'merchant.promotions.update',
         ]);
     });
