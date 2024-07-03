@@ -20,7 +20,7 @@
         <div class="col-md-3">
             <label for="payment_method" class="form-label fw-bold">Payment Method:</label>
             <select id="payment_method" name="payment_method" class="form-select px-3">
-                <option value="0">--Select--</option>
+                <option value="012">--Select--</option>
                 <option value="0" {{ request()->get('payment_method') == '0' ? 'selected' : '' }}>
                     MOMO</option>
                 <option value="1" {{ request()->get('payment_method') == '1' ? 'selected' : '' }}>
@@ -32,7 +32,7 @@
         <div class="col-md-3">
             <label for="status" class="form-label fw-bold">Status:</label>
             <select id="status" name="status" class="form-select px-3">
-                <option value="">--Select--</option>
+                <option value="01234">--Select--</option>
                 <option value="0" {{ request()->get('status') == '0' ? 'selected' : '' }}>
                     CREATED</option>
                 <option value="1" {{ request()->get('status') == '1' ? 'selected' : '' }}>
