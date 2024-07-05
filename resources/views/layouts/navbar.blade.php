@@ -19,7 +19,7 @@
                     <a class="nav-link click-scroll" href="#section_2">About</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link click-scroll" href="/events">Events</a>
+                    <a class="nav-link click-scroll" href="{{ route('events.index') }}">Events</a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link click-scroll" href="#section_3">Artists</a>
@@ -33,28 +33,16 @@
                 <li class="nav-item">
                     <a class="nav-link click-scroll" href="#section_6">Contact</a>
                 </li>
-                <li>
-
-                </li>
             </ul>
 
-            @if (session('isDisplay'))
-            <i class="fa-solid fa-user" href="{{ route('account.info') }}" style="color: #ffffff"></i>
+            @if(isset($isDisplay))
+                <a href="{{ route('account.info') }}" class="nav-link">
+                    <i class="fa-solid fa-user" style="color: #ffffff"></i>
+                </a>
             @else
-            <a href="{{ route('auth.login') }}" class="nav-link btn custom-btn d-lg-block d-none">Login</a>
+                <a href="{{ route('auth.login') }}" class="nav-link btn custom-btn d-lg-block d-none">Login</a>
             @endif
 
         </div>
     </div>
-    <script>
-        @if(isset($accessToken))
-        $.cookie('accessToken', JSON.stringify({
-            {}
-        }), {
-            expires: 1,
-            path: '/'
-        });
-        TokenData = JSON.parse($.cookie("Token"));
-        @endif
-    </script>
 </nav>

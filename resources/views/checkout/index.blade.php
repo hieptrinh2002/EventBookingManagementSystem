@@ -12,7 +12,7 @@
         <div class="py-5 text-center">
 
             <h2>Checkout form</h2>
-            <p class="lead">Below is an example form built entirely with Bootstrap’s form controls. Each required form group has a validation state that can be triggered by attempting to submit the form without completing it.</p>
+            <p class="lead">Please complete the form below to proceed with your purchase. All required fields must be filled out correctly to ensure a smooth transaction.</p>
         </div>
 
         <div class="row">
@@ -92,7 +92,7 @@
                 <form class="needs-validation" novalidate method="post" action = "/checkout/{{$event['id']}}">
                     @csrf
                     <div class="mb-3">
-                        <label for="email">Email <span class="text-muted">(Optional)</span></label>
+                        <label for="email">Email <span class="text-muted"></span></label>
                         <input type="email" class="form-control" name="email" id="email" placeholder="you@example.com" value="">
                         <div class="invalid-feedback">
                             Please enter a valid email address for shipping updates.

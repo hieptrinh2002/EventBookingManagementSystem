@@ -16,48 +16,64 @@
                                 <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQtbEsykx-0fhTred6UwHDYtMFd2UgTJCG4gaklT1dx4suRO4_n5LJr4Gg28kquSX5fpNo&usqp=CAU" alt="Admin"
                                      class="rounded-circle p-1 bg-warning" width="110">
                                 <div class="mt-3">
-                                    <h4>Jyoti</h4>
-                                    <p class="text-secondary mb-1">+91 7493658737</p>
-                                    <p class="text-muted font-size-sm">Delhi, NCR</p>
+                                    <?php
+                                        if(isset($userInfo)) {
+                                            echo "<h4>". htmlspecialchars($userInfo['firstName']) . " " . htmlspecialchars($userInfo['lastName']) ."</h4>";
+                                            echo "<p class='text-secondary mb-1'>". htmlspecialchars($userInfo['email'])."</p>";
+                                            echo "<p class='text-muted font-size-sm'>". htmlspecialchars($userInfo['address'])."</p>";
+                                        }
+                                    ?>
                                 </div>
                             </div>
                             <div class="list-group list-group-flush text-center mt-4">
                                 <a href="#" class="list-group-item list-group-item-action border-0 " onclick="showProfileDetails()">Profile Informaton</a>
                                 <a href="#" class="list-group-item list-group-item-action border-0" onclick="showOrderDetails()">Orders</a>
-                                <a href="#" class="list-group-item list-group-item-action border-0">Logout</a>
+                                <a href="/logout" class="list-group-item list-group-item-action border-0">Logout</a>
                             </div>
                         </div>
                     </div>
                 </div>
                 <div class="col-lg-8">
-                    <div  id="orderDetails" class="order_card">
-                        <div class="card" style="">
-                            <div class="card-body">
-                                <div class="profile-info">
-                                    <h5>Order Information</h5>
-                                    <p><strong>OrderId:</strong> ORD123456</p>
-                                    <p><strong>Event Name:</strong> jyoti@gmail.com</p>
-                                    <p><strong>Quantity:</strong> +91 7493658737</p>
-                                    <p><strong>Price:</strong> 02-03-1999</p>
-                                    <p><strong>organization location:</strong> Delhi, NCR</p>
-                                    <p><strong>Organizer:</strong> Delhi, NCR</p>
-                                    <p><strong>Status:</strong> Success</p>
-                                    <button class="btn btn-primary" href="/order-detail/">Details</button>
-                                </div>
+                    <div id="orderDetails" class="order_card">
+                        <?php
+                        if (isset($orderInfo)) {
+                            $isFirst = true; // Flag to track the first element
+                            foreach ($orderInfo['orders'] as $row) {
+                                // Apply margin only from the second element onwards
+                                $marginStyle = $isFirst ? '' : 'margin-top: 10px;';
+                                $isFirst = false;
 
-                            </div>
-                        </div>
+                                echo "<div class='card' style='" . $marginStyle . "'>";
+                                echo "<div class='card-body'>";
+                                echo "<div class='profile-info'>";
+                                echo "<h5>Order Information</h5>";
+                                echo "<p><strong>OrderId:</strong> " . htmlspecialchars($row['id']) . "</p>";
+                                echo "<p><strong>Event Name:</strong> " . htmlspecialchars($row['eventName']) . "</p>";
+                                echo "<p><strong>Quantity:</strong> " . htmlspecialchars($row['quantity']) . "</p>";
+                                echo "<p><strong>Price:</strong> " . htmlspecialchars($row['price']) . "</p>";
+                                echo "<p><strong>Organization Location:</strong> " . htmlspecialchars($row['eventAddress']) . "</p>";
+                                echo "<p><strong>Status:</strong> " . htmlspecialchars($row['status']) . "</p>";
+                                echo "<a class='btn btn-primary' href='/order-detail/" . htmlspecialchars($row['id']) . "'>Details</a>";
+                                echo "</div>";
+                                echo "</div>";
+                                echo "</div>";
+                            }
+                        }
+                        ?>
                     </div>
 
                     <div id="profileDetails" class="card" style="display: none;">
                         <div class="card-body">
                             <div class="profile-info">
                                 <h5>Profile Information</h5>
-                                <p><strong>Name:</strong> Jyoti</p>
-                                <p><strong>Email Address:</strong> jyoti@gmail.com</p>
-                                <p><strong>Phone Number:</strong> +91 7493658737</p>
-                                <p><strong>Date of Birth:</strong> 02-03-1999</p>
-                                <p><strong>Address:</strong> Delhi, NCR</p>
+                                <?php
+                                if (isset($userInfo)) {
+                                    echo "<p><strong>Name:</strong> " . htmlspecialchars($userInfo['firstName']) . " " . htmlspecialchars($userInfo['lastName']) . "</p>";
+                                    echo "<p><strong>Email Address:</strong> " . htmlspecialchars($userInfo['email']) . "</p>";
+                                    echo "<p><strong>Date of Birth:</strong> " . htmlspecialchars($userInfo['dateOfBirth']) . "</p>";
+                                    echo "<p><strong>Address:</strong> " . htmlspecialchars($userInfo['address']) . "</p>";
+                                }
+                                ?>
                             </div>
                         </div>
                     </div>

@@ -46,30 +46,13 @@ class AuthenticationService
         }
     }
 
-    public function validateAccessToken(array|string $accessToken): bool
+    public function validateAccessToken(array|string $accessToken): string
     {
         try {
-            // Decode the JWT token using the secret key
-            $headers1 = new stdClass();
-            $decoded = JWT::decode($accessToken, new Key("at67qH6mk8w5Y1nAyMoYKMWACiEi2bsa", 'HS256'),$headers1);
-
-            // Check for expired token
-            if ($decoded->exp < time()) {
-                return false;
-            }
-
-            // Generate a cache key using the subject (sub) claim from the token
-            $cacheKey = 'access_token_' . $decoded->sub;
-
-            // Check if the token is present in the cache
-            if (!Cache::has($cacheKey)) {
-                return false;
-            }
-
-            // If all checks pass, the token is valid
-            return true;
+            $decoded = JWT::decode($accessToken, new Key("at67qH6mk8w5Y1nAyMoYKMWACiEi2bsa", 'HS256'));
+            return $decoded->userProfileId;
         } catch (Exception $e) {
-            return false; // Token has expired
+            return ""; // Token has expired
         }
     }
 
