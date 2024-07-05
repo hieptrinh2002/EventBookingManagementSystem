@@ -56,7 +56,7 @@ class LoginController extends Controller
     {
         // Check for valid access token in cookie first
         $accessToken = $request->cookie('app-token');
-        if (isset($accessToken) && $this->authenticationService->validateAccessToken($accessToken)) {
+        if (isset($accessToken) && $this->authenticationService->validateAccessToken($accessToken) != "") {
             return redirect()->route('welcome.index')->with('isDisplay', true);
         }
 

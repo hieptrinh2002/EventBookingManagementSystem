@@ -19,7 +19,7 @@ Route::get('/events', function () {
     return view('events');
 });
 
-Route::get('/', function () {return view('welcome');})-> name('welcome.index');
+Route::get('/', [HomeController::class, 'dashboard'])->name('welcome.index');
 
 Route::get('/events', [EventController::class, 'index'])->name('events.index');
 Route::get('/events/{id}', [EventController::class, 'show'])->name('events.show');
@@ -79,3 +79,7 @@ Route::post('/checkout/{eventId}', [CheckoutController::class, 'processCheckout'
 Route::get('/error', [\App\Http\Controllers\ErrorController::class, 'index']);
 
 Route::get('/account', [AccountController::class, 'index'])->name("account.info");
+
+Route::get("/order-detail/{orderId}",[AccountController::class,'getOrderDetail'])->name("order.detail");
+
+Route::get("/logout",[AccountController::class,'logout'])->name("logout");

@@ -18,6 +18,16 @@ class OrderService
         return Http::post("http://localhost:8080/order/api/create", $initOrderRequest);
     }
 
+    public static function getOrderByUserId(string $userId): \Illuminate\Http\Client\Response
+    {
+        return Http::get("http://localhost:8080/order/api/get-by-user/" . $userId);
+    }
+
+    public static function getOrderById($orderId): \Illuminate\Http\Client\Response
+    {
+        return Http::get("http://localhost:8080/order/api/get-detail/" . $orderId);
+    }
+
     public function getAllOrdersToday(string $merchantId)
     {
         return $this->getAllOrdersByEndpoint("/today/{$merchantId}");

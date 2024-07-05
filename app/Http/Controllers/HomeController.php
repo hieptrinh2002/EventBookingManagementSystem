@@ -2,29 +2,40 @@
 
 namespace App\Http\Controllers;
 
+use App\Services\AuthenticationService;
+use Illuminate\Http\RedirectResponse;
+use Illuminate\Support\Facades\Cookie;
 use Illuminate\Contracts\Support\Renderable;
-use Illuminate\Http\Request;
 
 class HomeController extends Controller
 {
-    /**
-     * Create a new controller instance.
-     *
-     * @return void
-     */
-    public function __construct()
+    private AuthenticationService $authenticationService;
+
+    public function __construct(AuthenticationService $authenticationService)
     {
-        $this->middleware('auth');
+        // $this->middleware('auth');
+        $this->authenticationService = $authenticationService;
     }
 
-    /**
-     * Show the application dashboard.
-     *
-     * @return Renderable
-     */
-    public function index()
+    public function index(): Renderable
     {
-        $isDisplay = false;
-        return view('home', compact("isDisplay"));
+        $accessToken = Cookie::get('app-token');
+
+        if (isset($accessToken) && $this->authenticationService->validateAccessToken($accessToken)) {
+            return view('welcome', ['isDisplay' => true]);
+        }
+
+        return view('welcome');
+    }
+
+    public function dashboard(): RedirectResponse
+    {
+        $accessToken = Cookie::get('app-token');
+
+        if (isset($accessToken) && $this->authenticationService->validateAccessToken($accessToken)) {
+            return redirect()->route('home')->with('isDisplay', true);
+        }
+
+        return redirect()->route('home')->with('isDisplay', false);
     }
 }
